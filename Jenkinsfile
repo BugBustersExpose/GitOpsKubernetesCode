@@ -17,10 +17,16 @@ node {
       ssh 'echo "Test passed"'
     }
   }
-
-stage('Push image') {
   
-  docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+  stage('Push image') {
+    
+    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
     app.push("${env.BUILD_NUMBER}")
+    }
   }
+  
+  stage('Trigger ManifestUpdate') {
+    
+    echo "Triggering updatemaniest job"
+    build job: 'updatemanifest', paramteres: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
 }
