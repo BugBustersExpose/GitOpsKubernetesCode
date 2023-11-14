@@ -30,3 +30,4 @@ node {
     echo "Triggering updatemaniest job"
     build job: 'update-manifest', paramteres: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
 }
+}
